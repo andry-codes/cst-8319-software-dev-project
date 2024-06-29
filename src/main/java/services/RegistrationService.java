@@ -7,13 +7,11 @@ import beans.Register;
 
 public interface RegistrationService<Register> {
 
-	List<Register> viewAllUsers();
+	void newUser(Register user);
 	
-	void newUser(Register register);
+	Register getUser(UUID id);
 	
-	Register getID(UUID id);
-	
-	boolean updateUser(Register register);
+	boolean updateUser(Register user);
 	
 	boolean deleteUser(UUID id);
 	
