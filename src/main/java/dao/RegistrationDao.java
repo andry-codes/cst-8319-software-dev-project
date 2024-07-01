@@ -15,7 +15,6 @@ import services.RegistrationService;
 
 public class RegistrationDao implements RegistrationService<Register> {
 
-/* need to look at these more, kind of just took it from my assignment 3 without thinking too much*/
 	@Override
 	public void newUser(Register register) {
 		try {
@@ -38,43 +37,44 @@ public class RegistrationDao implements RegistrationService<Register> {
 		
 
 	@Override
-	public Register getUser(UUID id) {
-		Register user = null;
+	public boolean userCheck(String username) {
+		boolean exists = false;
 		try {
 			Connection connection = DBConnection.getConnectionToDatabase();
 			
-			String sqlGetUser = "SELECT id, username, password, email, isVerified FROM registration WHERE id = ?";
-			PreparedStatement statement = connection.prepareStatement(sqlGetUser);
-			statement.setString(1,  id.toString());
+			String sqlCheckUser = "SELECT * FROM registration WHERE username = ?";
+			PreparedStatement statement = connection.prepareStatement(sqlCheckUser);
+			statement.setString(1, username);
 			
 			ResultSet set = statement.executeQuery();
 			
 			if (set.next()) {
-				user = new Register(
-						UUID.fromString(set.getString("id")),
-						set.getString("username"),
-						set.getString("password"),
-						set.getString("email"),
-						set.getBoolean("isVerified")
-						);
+				exists = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return user;
+		return exists;
 	}
 
-
-	@Override
-	public boolean deleteUser(UUID id) {
-		// TODO Auto-generated method stub
-		return false;
+	@Override 
+	public boolean emailCheck(String email) {
+		boolean exists = false;
+		try {
+			Connection connection = DBConnection.getConnectionToDatabase();
+			
+			String sqlCheckUser = "SELECT * FROM registration WHERE email = ?";
+			PreparedStatement statement = connection.prepareStatement(sqlCheckUser);
+			statement.setString(1, email);
+			
+			ResultSet set = statement.executeQuery();
+			
+			if (set.next()) {
+				exists = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return exists;
 	}
-
-	@Override
-	public boolean updateUser(Register user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

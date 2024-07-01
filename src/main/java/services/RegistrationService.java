@@ -8,11 +8,9 @@ import beans.Register;
 public interface RegistrationService<Register> {
 
 	void newUser(Register user);
+
+	boolean userCheck(String username);
 	
-	Register getUser(UUID id);
-	
-	boolean updateUser(Register user);
-	
-	boolean deleteUser(UUID id);
+	boolean emailCheck(String email);
 	
 }

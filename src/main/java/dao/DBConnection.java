@@ -19,8 +19,8 @@ public class DBConnection {
 	    	PRIMARY KEY (`id`)
 	    	);*/
 		
-    private static final String dbUser = "alex";
-    private static final String dbPassword = "capstone1!";
+    private static final String dbUser = "root";
+    private static final String dbPassword = "Capstone!";
     private static final String CONN_STRING = "jdbc:mysql://localhost:3306/capstone";
 
     public static Connection getConnectionToDatabase() {
