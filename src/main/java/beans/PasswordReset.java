@@ -1,3 +1,4 @@
+package beans;
 
 public class PasswordReset {
 	private int passwordResetID;
