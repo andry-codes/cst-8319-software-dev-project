@@ -1,70 +1,67 @@
 package beans;
-import java.util.UUID;
 
 public class Register {
-	// DB requires id, email, and username to all be unique. 
-	private UUID userID; // generated at random when account is created.
-	private String email;
-	private String username;
-	private String password;
-	private boolean isVerified; // needs to be true to be able to login. 
+    private int id; // auto-incremented by database
+    private String email;
+    private String username;
+    private String password;
+    private boolean isVerified; // needs to be true to be able to login. 
 
-	public UUID getUserID() {
-		return userID;
-	}
+    // Getters and Setters
+    public int getId() {
+        return id;
+    }
 
-	public void setUserID(UUID userID) {
-		this.userID = userID;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    // constructor for creating new logs
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    // Constructor for creating new user
     public Register(String email, String username, String password) {
-    	this.userID = UUID.randomUUID();
-    	this.email = email;
-    	this.username = username;
-    	this.password = password;
-    	this.setVerified(false);
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isVerified = false;
     }
     
-    // constructor for pulling logs from db 
-    public Register(UUID userID, String email, String username, String password, boolean isVerified) {
-    	this.userID = userID;
-    	this.email = email;
-    	this.username = username;
-    	this.password = password;
-    	this.setVerified(isVerified);
+    // Constructor for pulling user from database
+    public Register(int id, String email, String username, String password, boolean isVerified) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isVerified = isVerified;
     }
-
-	public boolean isVerified() {
-		return isVerified;
-	}
-
-	public void setVerified(boolean isVerified) {
-		this.isVerified = isVerified;
-	}
-    
 }
