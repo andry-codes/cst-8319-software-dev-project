@@ -11,10 +11,10 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailService {
 
-    private static final String FROM_EMAIL = "your-email@gmail.com"; // Your email
-    private static final String EMAIL_PASSWORD = "your-email-password"; // Your email password
-    private static final String SMTP_HOST = "smtp.gmail.com"; // Gmail SMTP host
-    private static final int SMTP_PORT = 587; // Gmail SMTP port
+    private static final String FROM_EMAIL = "capstone113@outlook.com"; // Your Outlook email
+    private static final String EMAIL_PASSWORD = "ppgigwvrdgqkzmpw"; // Your email password
+    private static final String SMTP_HOST = "smtp.office365.com"; // Outlook SMTP host
+    private static final int SMTP_PORT = 587; // Outlook SMTP port
 
     private static Session getSession() {
         Properties properties = new Properties();
@@ -22,6 +22,7 @@ public class EmailService {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", SMTP_HOST);
         properties.put("mail.smtp.port", SMTP_PORT);
+        properties.put("mail.smtp.ssl.protocols", "TLSv1.2"); // Ensure TLSv1.2 is used
 
         return Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -31,6 +32,14 @@ public class EmailService {
     }
 
     public static void sendVerificationEmail(String toEmail, String verificationCode) {
+        System.out.println("Sending verification email to: " + toEmail);
+        System.out.println("Verification code: " + verificationCode);
+
+        if (toEmail == null || toEmail.isEmpty()) {
+            System.out.println("Error: toEmail is null or empty.");
+            return;
+        }
+
         try {
             Message message = new MimeMessage(getSession());
             message.setFrom(new InternetAddress(FROM_EMAIL));
@@ -41,11 +50,20 @@ public class EmailService {
             Transport.send(message);
             System.out.println("Verification email sent successfully.");
         } catch (MessagingException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
     public static void sendResetPasswordEmail(String toEmail, String resetCode) {
+        System.out.println("Sending reset password email to: " + toEmail);
+        System.out.println("Reset code: " + resetCode);
+
+        if (toEmail == null || toEmail.isEmpty()) {
+            System.out.println("Error: toEmail is null or empty.");
+            return;
+        }
+
         try {
             Message message = new MimeMessage(getSession());
             message.setFrom(new InternetAddress(FROM_EMAIL));
@@ -56,6 +74,7 @@ public class EmailService {
             Transport.send(message);
             System.out.println("Reset password email sent successfully.");
         } catch (MessagingException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

@@ -1,15 +1,19 @@
 package servlets;
 
+import services.EmailService;
 import java.io.IOException;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import beans.Register;
-import dao.RegistrationDao;
-import services.EmailService;
+import dao.UserDao;
+import dao.TokenDao;
+
+import java.util.UUID;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -20,35 +24,44 @@ public class RegisterServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("user_email");
-        String username = request.getParameter("new_user");
-        String password = request.getParameter("new_password");
-        RegistrationDao dao = new RegistrationDao();
+        request.setCharacterEncoding("UTF-8"); // Ensure UTF-8 encoding for parameters
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-        if (dao.userCheck(username)) {
+        if (email == null || email.isEmpty()) {
+            request.setAttribute("errorMessage", "Email is required.");
+            request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+            return;
+        }
+
+        UserDao userdao = new UserDao();
+        TokenDao tokendao = new TokenDao();
+        if (userdao.userCheck(username)) {
             request.setAttribute("errorMessage", "Username already exists.");
             request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
 
-        if (dao.emailCheck(email)) {
+        if (userdao.emailCheck(email)) {
             request.setAttribute("errorMessage", "Email already exists.");
             request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
 
         Register newUser = new Register(email, username, password);
-        dao.newUser(newUser);
+        userdao.newUser(newUser);
 
-        // Create and save verification token
         String verificationCode = UUID.randomUUID().toString().substring(0, 4);
-        dao.saveVerificationCode(email, verificationCode);
-
-        // Send verification email
         EmailService.sendVerificationEmail(email, verificationCode);
+        tokendao.saveVerificationCode(email, verificationCode);
 
-        // Redirect to verification page
+        HttpSession session = request.getSession();
+        int userId = userdao.getUserIdByEmail(email);
+        session.setAttribute("userId", userId); // Store userID in session
+        session.setAttribute("email", email); // Store email in session
+
         request.setAttribute("email", email);
-        response.sendRedirect("verify");
+        request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
     }
 }

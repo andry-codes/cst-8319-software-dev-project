@@ -1,18 +1,26 @@
 package servlets;
 
-import java.io.IOException;
+import dao.TokenDao;
+import dao.UserDao;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao.RegistrationDao;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @WebServlet("/resetPassword")
 public class ResetPasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+        if (email != null) {
+            request.setAttribute("email", email);
+        }
         request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
     }
 
@@ -20,22 +28,23 @@ public class ResetPasswordServlet extends HttpServlet {
         String email = request.getParameter("email");
         String resetCode = request.getParameter("reset_code");
         String newPassword = request.getParameter("new_password");
-        String confirmPassword = request.getParameter("confirm_password");
-
-        RegistrationDao dao = new RegistrationDao();
-
-        if (!newPassword.equals(confirmPassword)) {
-            request.setAttribute("errorMessage", "Passwords do not match.");
-            request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
-            return;
-        }
-
-        if (dao.verifyUser(email, resetCode)) {
-            dao.updatePassword(email, newPassword);
-            request.setAttribute("message", "Password reset successful. You can now login.");
-            request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+        
+        TokenDao tokendao = new TokenDao();
+        UserDao userdao = new UserDao();
+        
+        if (resetCode != null && newPassword != null) {
+            if (tokendao.validateResetCode(email, resetCode)) {
+                userdao.updatePassword(email, newPassword);
+                tokendao.deleteVerificationToken(email, resetCode, "reset");
+                request.setAttribute("message", "Password reset successfully. Please login with your new password.");
+                request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Invalid reset code.");
+                request.setAttribute("email", email);
+                request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("errorMessage", "Invalid reset code.");
+            request.setAttribute("errorMessage", "Please provide a reset code and a new password.");
             request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
         }
     }

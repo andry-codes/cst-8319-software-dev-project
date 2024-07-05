@@ -21,10 +21,14 @@
 
 <p>Don't have an account? <a href="/capstoneProject/register">Register here</a></p>
 
-<% String errorMessage = (String) request.getAttribute("errorMessage");
-    if (errorMessage != null) { %>
+<% 
+String errorMessage = (String) request.getAttribute("errorMessage");
+if (errorMessage != null) { 
+%>
     <p style="color:red;"><%= errorMessage %></p>
-<% } %>
+<% 
+} 
+%>
 
 </body>
 </html>

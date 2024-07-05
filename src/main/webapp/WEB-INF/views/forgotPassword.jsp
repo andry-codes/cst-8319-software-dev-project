@@ -6,13 +6,13 @@
 <body>
 
 <h1>Forgot Password</h1>
-<p>Enter your email or username to receive a reset token:</p>
+<p>Enter your email to receive a password reset code:</p>
 
 <form action="forgotPassword" method="post">
-    <label for="username_or_email">Username/Email:</label>
-    <input type="text" id="username_or_email" name="username_or_email" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
     <br>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Send Reset Code">
 </form>
 
 <% String errorMessage = (String) request.getAttribute("errorMessage");

@@ -5,9 +5,15 @@
 </head>
 <body>
 
-<h1>Welcome, <%= session.getAttribute("username") %></h1>
-<p>You have successfully logged in.</p>
-<a href="logout">Logout</a>
+<h1>Welcome, <%= session.getAttribute("username") %>!</h1>
+
+<form action="profile" method="get">
+    <input type="submit" value="Edit Profile">
+</form>
+
+<form action="logout" method="post">
+    <input type="submit" value="Log Out">
+</form>
 
 </body>
 </html>

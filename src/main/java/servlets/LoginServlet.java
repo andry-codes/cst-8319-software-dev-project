@@ -1,13 +1,14 @@
 package servlets;
 
-import java.io.IOException;
+import dao.UserDao;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import dao.RegistrationDao;
+import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -20,15 +21,18 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String usernameOrEmail = request.getParameter("username_or_email");
         String password = request.getParameter("password");
-        RegistrationDao dao = new RegistrationDao();
+        UserDao userdao = new UserDao();
 
-        if (dao.validateUser(usernameOrEmail, password)) {
-            if (!dao.isUserVerified(usernameOrEmail)) {
-                request.setAttribute("email", usernameOrEmail);
+        if (userdao.validateUser(usernameOrEmail, password)) {
+            int userId = userdao.getUserIdByUsernameOrEmail(usernameOrEmail); // Get userID from database
+            String email = userdao.getEmailByUserId(userId); // Get email from database using userID
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", userId); // Store userID in session
+            session.setAttribute("email", email); // Store email in session
+
+            if (!userdao.isUserVerified(usernameOrEmail)) {
                 response.sendRedirect("verify");
             } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("username", usernameOrEmail);
                 request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
             }
         } else {

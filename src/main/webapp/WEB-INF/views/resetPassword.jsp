@@ -6,7 +6,7 @@
 <body>
 
 <h1>Reset Password</h1>
-<p>Enter the reset code sent to your email and your new password:</p>
+<p>Please enter the reset code sent to your email: <%= request.getAttribute("email") %></p>
 
 <form action="resetPassword" method="post">
     <input type="hidden" name="email" value="<%= request.getAttribute("email") %>">
@@ -16,14 +16,20 @@
     <label for="new_password">New Password:</label>
     <input type="password" id="new_password" name="new_password" required>
     <br>
-    <label for="confirm_password">Confirm Password:</label>
-    <input type="password" id="confirm_password" name="confirm_password" required>
-    <br>
     <input type="submit" value="Reset Password">
 </form>
 
+<form action="resendResetCode" method="post">
+    <input type="hidden" name="email" value="<%= request.getAttribute("email") %>">
+    <input type="submit" value="Resend Reset Code">
+</form>
+
+<% String message = (String) request.getAttribute("message");
+   if (message != null) { %>
+    <p style="color:green;"><%= message %></p>
+<% } %>
 <% String errorMessage = (String) request.getAttribute("errorMessage");
-    if (errorMessage != null) { %>
+   if (errorMessage != null) { %>
     <p style="color:red;"><%= errorMessage %></p>
 <% } %>
 
