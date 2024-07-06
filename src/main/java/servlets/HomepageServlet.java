@@ -17,19 +17,25 @@ public class HomepageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-        if (userId != null) {
-        	UserDao userdao = new UserDao();
-            if (userdao.isUserVerified(userId)) {
-                String username = userdao.getUsernameByUserId(userId);
-                if (username != null) {
-                    session.setAttribute("username", username);
-                }
-                request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
-            } else {
-                response.sendRedirect("verify");
-            }
-        } else {
+        
+        if (userId == null) {
             response.sendRedirect("login");
+            return;
         }
+        
+        UserDao userdao = new UserDao();
+      
+        if (!userdao.isUserVerified(userId)) {
+        	response.sendRedirect("verify");
+        	return;
+        }
+        
+        String username = (String) session.getAttribute("username");
+        
+        if (username == null) {
+        	response.sendRedirect("login");
+        	return;
+       }
+        request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
     }
 }

@@ -3,6 +3,7 @@ package servlets;
 import dao.UserDao;
 import dao.TokenDao;
 import services.EmailService;
+import beans.Register;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,62 +23,86 @@ public class VerifyServlet extends HttpServlet {
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             response.sendRedirect("login");
-        } else {
-            UserDao userDao = new UserDao();
-            String email = (String) session.getAttribute("email");
-            if (email == null) {
-                email = userDao.getEmailByUserId(userId);
-                session.setAttribute("email", email);
-            }
-            request.setAttribute("email", email);
-            request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+            return;
         }
+
+        String usernameOrEmail = (String) session.getAttribute("usernameOrEmail");
+        if (usernameOrEmail == null) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        UserDao userDao = new UserDao();
+        Register user = userDao.getUser(usernameOrEmail);
+        if (user == null) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        String email = user.getEmail();
+        session.setAttribute("email", email);
+
+        request.setAttribute("email", email);
+        request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String verificationCode = request.getParameter("verification_code");
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
-        UserDao userDao = new UserDao();
+
+        if (userId == null) {
+            response.sendRedirect("login");
+            return;
+        }
+
+        String email = (String) session.getAttribute("email");
+        if (email == null) {
+            String usernameOrEmail = (String) session.getAttribute("usernameOrEmail");
+            if (usernameOrEmail == null) {
+                response.sendRedirect("login");
+                return;
+            }
+
+            UserDao userDao = new UserDao();
+            Register user = userDao.getUser(usernameOrEmail);
+            if (user == null) {
+                response.sendRedirect("login");
+                return;
+            }
+            email = user.getEmail();
+            session.setAttribute("email", email);
+        }
+
         TokenDao tokenDao = new TokenDao();
 
-        if (userId != null) {
-            String email = userDao.getEmailByUserId(userId);
+        if ("true".equals(request.getParameter("resend"))) {
+            String newVerificationCode = UUID.randomUUID().toString().substring(0, 4);
+            tokenDao.saveVerificationCode(email, newVerificationCode);
+            EmailService.sendVerificationEmail(email, newVerificationCode);
+
+            request.setAttribute("email", email);
+            request.setAttribute("message", "Verification code resent successfully.");
+            request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+        } else {
             if (tokenDao.validateVerificationCode(email, verificationCode)) {
+                UserDao userDao = new UserDao();
                 userDao.markUserAsVerified(email); // Mark the user as verified
                 tokenDao.deleteVerificationToken(email, verificationCode, "verification"); // Delete the verification token
+                
+                session.setAttribute("isVerified", true);
+                
+                Register user = userDao.getUser(email);
+                session.setAttribute("username", user.getUsername()); // Store username in session
+                session.setAttribute("userId", user.getId()); // Store userId in session
+                session.setAttribute("email", user.getEmail()); // Store email in session
+                
                 response.sendRedirect("homepage");
             } else {
                 request.setAttribute("errorMessage", "Invalid verification code.");
                 request.setAttribute("email", email);
                 request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
             }
-        } else {
-            response.sendRedirect("login");
-        }
-    }
-
-    protected void doResend(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            response.sendRedirect("login");
-        } else {
-            UserDao userDao = new UserDao();
-            TokenDao tokenDao = new TokenDao();
-            String email = (String) session.getAttribute("email");
-            if (email == null) {
-                email = userDao.getEmailByUserId(userId);
-                session.setAttribute("email", email);
-            }
-
-            String verificationCode = UUID.randomUUID().toString().substring(0, 4);
-            tokenDao.saveVerificationCode(email, verificationCode);
-            EmailService.sendVerificationEmail(email, verificationCode);
-
-            request.setAttribute("email", email);
-            request.setAttribute("message", "Verification code resent successfully.");
-            request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
         }
     }
 }

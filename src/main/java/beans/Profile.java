@@ -1,4 +1,3 @@
-// src/beans/Profile.java
 package beans;
 
 public class Profile {
