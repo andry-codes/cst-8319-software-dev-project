@@ -109,6 +109,7 @@ public class UserDao {
         }
         return isVerified;
     }
+    
     public void markUserAsVerified(String email) {
         try {
             Connection connection = DBConnection.getConnectionToDatabase();
@@ -120,91 +121,27 @@ public class UserDao {
             e.printStackTrace();
         }
     }
-    public String getEmailByUsernameOrEmail(String usernameOrEmail) {
-        String email = null;
-        try {
-            Connection connection = DBConnection.getConnectionToDatabase();
-            String sqlQuery = "SELECT email FROM registration WHERE username = ? OR email = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setString(1, usernameOrEmail);
-            statement.setString(2, usernameOrEmail);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                email = resultSet.getString("email");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return email;
-    }
-
-    public int getUserIdByUsernameOrEmail(String usernameOrEmail) {
-        int userId = -1;
-        try {
-            Connection connection = DBConnection.getConnectionToDatabase();
-            String sqlQuery = "SELECT id FROM registration WHERE username = ? OR email = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setString(1, usernameOrEmail);
-            statement.setString(2, usernameOrEmail);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                userId = resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userId;
-    }
-
-    public String getUsernameByUserId(int userId) {
-        String username = null;
-        try {
-            Connection connection = DBConnection.getConnectionToDatabase();
-            String sqlQuery = "SELECT username FROM registration WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                username = resultSet.getString("username");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return username;
-    }
-
-    public String getEmailByUserId(int userId) {
-        String email = null;
-        try {
-            Connection connection = DBConnection.getConnectionToDatabase();
-            String sqlQuery = "SELECT email FROM registration WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                email = resultSet.getString("email");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return email;
-    }
-
-    public int getUserIdByEmail(String email) {
-        int userId = -1;
-        try {
-            Connection connection = DBConnection.getConnectionToDatabase();
-            String sqlQuery = "SELECT id FROM registration WHERE email = ?";
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
-            statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                userId = resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userId;
+    
+    public Register getUser(String usernameOrEmail){
+    	Register user = null;
+    	try {
+    		Connection connection = DBConnection.getConnectionToDatabase();
+    		String sqlQuery = "SELECT * FROM registration WHERE username = ? OR email =?";
+    		PreparedStatement stmt = connection.prepareStatement(sqlQuery);
+    		stmt.setString(1, usernameOrEmail);
+    		stmt.setString(2, usernameOrEmail);
+    		ResultSet result = stmt.executeQuery();
+    		if (result.next());
+    		user = new Register(
+    				result.getInt("id"),
+    				result.getString("email"),
+    				result.getString("username"),
+    				result.getString("password"),
+    				result.getBoolean("isVerified"));
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+		return user;
     }
 
     public void updatePassword(String email, String newPassword) {

@@ -32,6 +32,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                 resetCode = UUID.randomUUID().toString().substring(0, 4);
                 tokenDao.saveResetCode(email, resetCode);
             }
+            
             EmailService.sendResetPasswordEmail(email, resetCode);
             HttpSession session = request.getSession();
             session.setAttribute("email", email); // Set email in session

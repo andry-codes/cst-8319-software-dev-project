@@ -43,10 +43,10 @@ public class ProfileServlet extends HttpServlet {
         } else {
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
-            int age = Integer.parseInt(request.getParameter("age"));
+            int age = parseOrDefault(request.getParameter("age"), 0);
             String gender = request.getParameter("gender");
-            int weight = Integer.parseInt(request.getParameter("weight"));
-            int height = Integer.parseInt(request.getParameter("height"));
+            int weight = parseOrDefault(request.getParameter("weight"), 0);
+            int height = parseOrDefault(request.getParameter("height"), 0);
 
             Profile profile = new Profile(userId, firstName, lastName, age, gender, weight, height);
             ProfileDao dao = new ProfileDao();
@@ -54,6 +54,14 @@ public class ProfileServlet extends HttpServlet {
 
             request.setAttribute("message", "Profile updated successfully.");
             doGet(request, response);
+        }
+    }
+
+    private int parseOrDefault(String value, int defaultValue) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
         }
     }
 }

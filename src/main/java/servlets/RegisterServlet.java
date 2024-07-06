@@ -56,10 +56,18 @@ public class RegisterServlet extends HttpServlet {
         EmailService.sendVerificationEmail(email, verificationCode);
         tokendao.saveVerificationCode(email, verificationCode);
 
+        newUser = userdao.getUser(username);
+        if (newUser == null) {
+            request.setAttribute("errorMessage", "User registration failed.");
+            request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+            return;
+        }
+
         HttpSession session = request.getSession();
-        int userId = userdao.getUserIdByEmail(email);
-        session.setAttribute("userId", userId); // Store userID in session
-        session.setAttribute("email", email); // Store email in session
+        session.setAttribute("username", newUser.getUsername()); // Store username in session
+        session.setAttribute("userId", newUser.getId()); // Store userId in session
+        session.setAttribute("email", newUser.getEmail()); // Store email in session
+        session.setAttribute("usernameOrEmail", username); // Store usernameOrEmail in session
 
         request.setAttribute("email", email);
         request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
