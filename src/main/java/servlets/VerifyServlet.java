@@ -41,7 +41,6 @@ public class VerifyServlet extends HttpServlet {
 
         String email = user.getEmail();
         session.setAttribute("email", email);
-        session.setAttribute("usernameOrEmail", usernameOrEmail);
 
         request.setAttribute("email", email);
         request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
@@ -90,6 +89,14 @@ public class VerifyServlet extends HttpServlet {
                 UserDao userDao = new UserDao();
                 userDao.markUserAsVerified(email); // Mark the user as verified
                 tokenDao.deleteVerificationToken(email, verificationCode, "verification"); // Delete the verification token
+                
+                session.setAttribute("isVerified", true);
+                
+                Register user = userDao.getUser(email);
+                session.setAttribute("username", user.getUsername()); // Store username in session
+                session.setAttribute("userId", user.getId()); // Store userId in session
+                session.setAttribute("email", user.getEmail()); // Store email in session
+                
                 response.sendRedirect("homepage");
             } else {
                 request.setAttribute("errorMessage", "Invalid verification code.");

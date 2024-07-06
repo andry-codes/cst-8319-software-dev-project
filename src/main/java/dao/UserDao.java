@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import beans.Register;
+import services.UserService;
 
-public class UserDao {
+public class UserDao implements UserService<Register>{
 
-    public void newUser(Register register) {
+    public void newUser(Register register){
         try {
             Connection connection = DBConnection.getConnectionToDatabase();
             String sqlInsert = "INSERT INTO registration (username, password, email, isVerified) VALUES (?, ?, ?, false)";

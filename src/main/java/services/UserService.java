@@ -19,15 +19,7 @@ public interface UserService<Register>{
 
 	void markUserAsVerified(String email);
 
-	String getEmailByUsernameOrEmail(String usernameOrEmail);
-
-	int getUserIdByUsernameOrEmail(String usernameOrEmail);
-
-	String getUsernameByUserId(int userId);
-
-	String getEmailByUserId(int userId);
-
-	int getUserIdByEmail(String email);
+	Register getUser(String usernameOrEmail);
 
 	void updatePassword(String email, String newPassword);
 	

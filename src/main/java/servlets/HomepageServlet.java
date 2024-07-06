@@ -18,20 +18,21 @@ public class HomepageServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
         
-        if (userId != null) {
+        if (userId == null) {
             response.sendRedirect("login");
             return;
         }
         
         UserDao userdao = new UserDao();
       
-        if (userdao.isUserVerified(userId)) {
+        if (!userdao.isUserVerified(userId)) {
         	response.sendRedirect("verify");
         	return;
         }
         
         String username = (String) session.getAttribute("username");
-        if (username != null) {
+        
+        if (username == null) {
         	response.sendRedirect("login");
         	return;
        }

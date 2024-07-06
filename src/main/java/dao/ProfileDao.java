@@ -5,8 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import beans.Profile;
+import services.ProfileService;
 
-public class ProfileDao {
+public class ProfileDao implements ProfileService {
 
     public Profile getProfileByUserId(int userId) {
         Profile profile = null;

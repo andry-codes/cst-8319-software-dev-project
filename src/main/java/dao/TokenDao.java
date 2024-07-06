@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import services.TokenService;
 
-public class TokenDao {
+public class TokenDao implements TokenService {
 
     public void saveVerificationCode(String email, String verificationCode) {
         try {
