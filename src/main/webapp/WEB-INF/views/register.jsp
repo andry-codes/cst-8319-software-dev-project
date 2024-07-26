@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Register</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
     <script>
         function validateForm() {
             var password = document.getElementById("password").value;

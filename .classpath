@@ -14,5 +14,7 @@
 			<attribute name="javadoc_location" value="https://javaee.github.io/javaee-spec/javadocs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Alexa/Downloads/javax.servlet.jsp-api-2.3.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Alexa/Downloads/javax.servlet-api-4.0.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
