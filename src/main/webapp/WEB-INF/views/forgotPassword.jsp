@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Forgot Password</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 

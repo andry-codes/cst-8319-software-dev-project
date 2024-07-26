@@ -26,16 +26,17 @@ public class HomepageServlet extends HttpServlet {
         UserDao userdao = new UserDao();
       
         if (!userdao.isUserVerified(userId)) {
-        	response.sendRedirect("verify");
-        	return;
+            response.sendRedirect("verify");
+            return;
         }
         
         String username = (String) session.getAttribute("username");
         
         if (username == null) {
-        	response.sendRedirect("login");
-        	return;
-       }
+            response.sendRedirect("login");
+            return;
+        }
+        
         request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
     }
 }
