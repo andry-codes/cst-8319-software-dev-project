@@ -1,4 +1,6 @@
-package beans;
+package factories;
+
+import beans.Register;
 
 public class RegistrationFactory {
 	

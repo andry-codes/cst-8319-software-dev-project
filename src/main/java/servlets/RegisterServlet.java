@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.Register;
-import beans.RegistrationFactory;
 import dao.UserDao;
+import factories.RegistrationFactory;
 import dao.TokenDao;
 
 import java.util.UUID;
