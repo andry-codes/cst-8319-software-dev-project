@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import beans.Register;
+import beans.RegistrationFactory;
 import services.UserService;
 
 public class UserDao implements UserService<Register>{
@@ -133,7 +134,7 @@ public class UserDao implements UserService<Register>{
     		stmt.setString(2, usernameOrEmail);
     		ResultSet result = stmt.executeQuery();
     		if (result.next());
-    		user = new Register(
+    		user = RegistrationFactory.createUserFromDatabase(
     				result.getInt("id"),
     				result.getString("email"),
     				result.getString("username"),
