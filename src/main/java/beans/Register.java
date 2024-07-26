@@ -7,6 +7,23 @@ public class Register {
     private String password;
     private boolean isVerified; // needs to be true to be able to login. 
 
+    // Constructor for creating new user
+    public Register(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isVerified = false;
+    }
+    
+    // Constructor for pulling user from database
+    public Register(int id, String email, String username, String password, boolean isVerified) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isVerified = isVerified;
+    }
+    
     // Getters and Setters
     public int getId() {
         return id;
@@ -48,20 +65,5 @@ public class Register {
         this.isVerified = isVerified;
     }
 
-    // Constructor for creating new user
-    public Register(String email, String username, String password) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.isVerified = false;
-    }
-    
-    // Constructor for pulling user from database
-    public Register(int id, String email, String username, String password, boolean isVerified) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.isVerified = isVerified;
-    }
+
 }

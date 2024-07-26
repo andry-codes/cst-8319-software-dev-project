@@ -1,6 +1,7 @@
 package servlets;
 
 import beans.Profile;
+import beans.ProfileBuilder;
 import dao.ProfileDao;
 
 import javax.servlet.ServletException;
@@ -48,7 +49,15 @@ public class ProfileServlet extends HttpServlet {
             int weight = parseOrDefault(request.getParameter("weight"), 0);
             int height = parseOrDefault(request.getParameter("height"), 0);
 
-            Profile profile = new Profile(userId, firstName, lastName, age, gender, weight, height);
+            Profile profile = new ProfileBuilder(userId)
+            		.setFirstName(firstName)
+            		.setLastName(lastName)
+            		.setAge(age)
+            		.setGender(gender)
+            		.setWeight(weight)
+            		.setHeight(height)
+            		.build();
+            
             ProfileDao dao = new ProfileDao();
             dao.saveOrUpdateProfile(profile);
 
