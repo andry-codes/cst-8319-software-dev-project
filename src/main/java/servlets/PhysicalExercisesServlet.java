@@ -15,4 +15,5 @@ public class PhysicalExercisesServlet extends HttpServlet {
         // Forward to the physical exercises page
         request.getRequestDispatcher("WEB-INF/views/physicalExercises.jsp").forward(request, response);
     }
+
 }

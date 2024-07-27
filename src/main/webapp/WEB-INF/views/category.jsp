@@ -17,7 +17,6 @@
     <div>
         <h3><%= exercise.getName() %></h3>
         <p><%= exercise.getDescription() %></p>
-        <img class="exercise-image" src="<%= exercise.getImageUrl() %>" alt="<%= exercise.getName() %>">
         <form action="selectExercise" method="get">
             <input type="hidden" name="exerciseId" value="<%= exercise.getId() %>">
             <input type="submit" value="View Exercise">
@@ -36,3 +35,4 @@
 
 </body>
 </html>
+

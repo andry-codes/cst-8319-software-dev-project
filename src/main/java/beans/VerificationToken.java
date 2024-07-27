@@ -4,6 +4,12 @@ public class VerificationToken {
     private int id; // auto-incremented by database
     private String email;
     private String token;
+    
+    // Constructor for creating new token
+    public VerificationToken(String email, String token) {
+        this.email = email;
+        this.token = token;
+    }
 
     // Getters and Setters
     public int getId() {
@@ -30,9 +36,5 @@ public class VerificationToken {
         this.token = token;
     }
 
-    // Constructor for creating new token
-    public VerificationToken(String email, String token) {
-        this.email = email;
-        this.token = token;
-    }
+
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import beans.Register;
 import dao.UserDao;
+import factories.RegistrationFactory;
 import dao.TokenDao;
 
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        Register newUser = new Register(email, username, password);
+        Register newUser = RegistrationFactory.createNewUser(email, username, password);
         userdao.newUser(newUser);
 
         String verificationCode = UUID.randomUUID().toString().substring(0, 4);

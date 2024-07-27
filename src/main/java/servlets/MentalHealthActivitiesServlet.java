@@ -15,4 +15,5 @@ public class MentalHealthActivitiesServlet extends HttpServlet {
         // Forward to the mental health activities page
         request.getRequestDispatcher("WEB-INF/views/mentalHealthActivities.jsp").forward(request, response);
     }
+
 }

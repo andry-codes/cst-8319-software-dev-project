@@ -25,4 +25,5 @@ public class SelectExerciseServlet extends HttpServlet {
             response.sendRedirect("selectCategory");
         }
     }
+
 }

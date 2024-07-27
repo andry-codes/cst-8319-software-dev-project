@@ -1,6 +1,7 @@
 package dao;
 
 import models.Exercise;
+import factories.ExerciseFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,7 +29,10 @@ public class ExerciseDao {
                 String description = rs.getString("description");
                 String imageUrl = rs.getString("image_url");
                 String instructions = rs.getString("instructions");
-                exercises.add(new Exercise(id, name, category, description, imageUrl, instructions));
+
+                Exercise exercise = ExerciseFactory.createExercise(id, name, category, description, imageUrl, instructions);
+                exercises.add(exercise);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +54,10 @@ public class ExerciseDao {
                 String description = rs.getString("description");
                 String imageUrl = rs.getString("image_url");
                 String instructions = rs.getString("instructions");
-                exercises.add(new Exercise(id, name, category, description, imageUrl, instructions));
+
+                Exercise exercise = ExerciseFactory.createExercise(id, name, category, description, imageUrl, instructions);
+                exercises.add(exercise);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,11 +77,15 @@ public class ExerciseDao {
                 String description = rs.getString("description");
                 String imageUrl = rs.getString("image_url");
                 String instructions = rs.getString("instructions");
-                exercise = new Exercise(id, name, category, description, imageUrl, instructions);
-            }
+
+                exercise = ExerciseFactory.createExercise(id, name, category, description, imageUrl, instructions);
+
+          }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return exercise;
     }
+
 }
+

@@ -23,4 +23,5 @@
 <jsp:include page="backToHomeButton.jsp" />
 
 </body>
+
 </html>

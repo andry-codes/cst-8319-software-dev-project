@@ -14,11 +14,11 @@ public class EmailVerification {
 		this.codeExpirationDate = LocalDateTime.now().plusHours(24);
 	}
 
-	public String getVerificationToken() {
+	public String getVerificationCode() {
 		return verificationCode;
 	}
 	
-	public void setVerificationCode() {
+	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
 	

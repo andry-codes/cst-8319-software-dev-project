@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    position: relative; 
+    min-height: 100vh; 
+    padding-bottom: 60px; 
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form input[type="submit"] {
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+
+#searchResults div {
+    margin-bottom: 10px;
+}
+
+#searchResults a {
+    text-decoration: none;
+    color: blue;
+}
+
+#searchResults a:hover {
+    text-decoration: underline;
+}
+
+.backToHomeButton {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.exercise-image {
+    max-width: 300px; 
+    max-height: 200px; 
+    width: auto;
+    height: auto; 
+    display: block;
+    margin: 10px 0; 
+}
