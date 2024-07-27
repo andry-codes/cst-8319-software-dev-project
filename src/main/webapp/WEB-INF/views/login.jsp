@@ -18,7 +18,7 @@
     <input type="password" id="password" name="password" required>
     <br>
     <input type="submit" value="Log in">
-    <input type="button" value="Forgot Password" onclick="location.href='/capstoneProject/forgotPassword'">
+    <input type="button" value="Forgot Password" onclick="location.href='/forgotPassword'">
 </form>
 
 <p>Don't have an account? <a href="/capstoneProject/register">Register here</a></p>

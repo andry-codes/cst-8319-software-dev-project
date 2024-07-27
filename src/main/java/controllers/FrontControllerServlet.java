@@ -48,7 +48,7 @@ public class FrontControllerServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
         if (path != null && path.startsWith("/")) {
-            path = path.substring(1); // Remove leading slash
+            path = path.substring(1); 
         }
         
         Controller command = controllers.get(path);
@@ -56,7 +56,6 @@ public class FrontControllerServlet extends HttpServlet {
             try {
                 command.execute(request, response);
             } catch (Exception e) {
-                // Log the error and handle it appropriately
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
             }
