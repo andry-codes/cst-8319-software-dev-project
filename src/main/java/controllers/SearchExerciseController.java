@@ -1,23 +1,31 @@
-package servlets;
+package controllers;
 
 import dao.ExerciseDao;
 import models.Exercise;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import controllers.Controller;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/searchExercise")
-public class SearchExerciseServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class SearchExerciseController implements Controller {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String query = request.getParameter("query");
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
+            doGet(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    private void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String query = request.getParameter("query");
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 

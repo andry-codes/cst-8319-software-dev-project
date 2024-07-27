@@ -1,10 +1,8 @@
-package servlets;
+package controllers;
 
 import services.EmailService;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,16 +14,23 @@ import dao.TokenDao;
 
 import java.util.UUID;
 
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class RegisterController implements Controller {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
+            doGet(request, response);
+        } else if ("POST".equalsIgnoreCase(request.getMethod())) {
+            doPost(request, response);
+        }
+    }
+
+    private void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8"); // Ensure UTF-8 encoding for parameters
+    private void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	request.setCharacterEncoding("UTF-8"); // Ensure UTF-8 encoding for parameters
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");

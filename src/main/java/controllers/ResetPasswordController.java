@@ -1,22 +1,32 @@
-package servlets;
+package controllers;
 
 import dao.TokenDao;
 import dao.UserDao;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import controllers.Controller;
+
 import java.io.IOException;
 
-@WebServlet("/resetPassword")
-public class ResetPasswordServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class ResetPasswordController implements Controller {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
+            doGet(request, response);
+        } else if ("POST".equalsIgnoreCase(request.getMethod())) {
+            doPost(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    private void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
         if (email != null) {
             request.setAttribute("email", email);
@@ -24,8 +34,8 @@ public class ResetPasswordServlet extends HttpServlet {
         request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
+    private void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String email = request.getParameter("email");
         String resetCode = request.getParameter("reset_code");
         String newPassword = request.getParameter("new_password");
         

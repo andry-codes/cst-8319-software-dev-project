@@ -1,21 +1,27 @@
-package servlets;
+package controllers;
 
 import models.Exercise;
 import dao.ExerciseDao;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/selectCategory")
-public class SearchCategoryServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class SearchCategoryController implements Controller {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
+            doGet(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    private void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String category = request.getParameter("category");
         if (category != null && !category.isEmpty()) {
             ExerciseDao exerciseDao = new ExerciseDao();

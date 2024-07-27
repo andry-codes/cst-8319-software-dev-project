@@ -1,23 +1,29 @@
-package servlets;
+package controllers;
 
 import dao.UserDao;
 import dao.TokenDao;
 import services.EmailService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.UUID;
 
-@WebServlet("/resendResetCode")
-public class ResendResetCodeServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class ResendResetCodeController implements Controller {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
+            doPost(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        }
+    }
+
+    private void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String email = request.getParameter("email");
         UserDao userdao = new UserDao();
         TokenDao tokendao = new TokenDao();
 
