@@ -30,7 +30,7 @@ public class FrontControllerServlet extends HttpServlet {
     	controllers.put("resetPassword", new ResetPasswordController());
     	controllers.put("selectCategory", new SearchCategoryController());
     	controllers.put("searchExercise", new SearchExerciseController());
-    	controllers.put("selectCategory", new SelectCategoryController());
+//    	controllers.put("selectCategory", new SelectCategoryController());
     	controllers.put("selectExercise", new SelectExerciseController());
     	controllers.put("verify", new VerifyController());
     }
@@ -46,12 +46,22 @@ public class FrontControllerServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String path = request.getPathInfo().substring(1);
+        String path = request.getPathInfo();
+        if (path != null && path.startsWith("/")) {
+            path = path.substring(1); // Remove leading slash
+        }
+        
         Controller command = controllers.get(path);
         if (command != null) {
-            command.execute(request, response);
+            try {
+                command.execute(request, response);
+            } catch (Exception e) {
+                // Log the error and handle it appropriately
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request.");
+            }
         } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "The requested resource was not found.");
         }
     }
 }
