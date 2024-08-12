@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static final String dbUser = "root";
-    private static final String dbPassword = "root";
+    private static final String dbPassword = "Capstone!";
     private static final String CONN_STRING = "jdbc:mysql://localhost:3306/Capstone";
 
     public static Connection getConnectionToDatabase() {

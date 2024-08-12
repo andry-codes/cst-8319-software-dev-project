@@ -39,6 +39,6 @@ public class ResendResetCodeController implements Controller {
         } else {
             request.setAttribute("errorMessage", "Email does not exist.");
         }
-        request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/resetPassword.jsp").forward(request, response);
     }
 }

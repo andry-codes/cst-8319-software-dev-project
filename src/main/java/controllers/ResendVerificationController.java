@@ -33,6 +33,6 @@ public class ResendVerificationController implements Controller {
 	        } else {
 	            request.setAttribute("errorMessage", "Unable to resend verification code.");
 	        }
-	        request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+	        request.getRequestDispatcher("/WEB-INF/views/verify.jsp").forward(request, response);
     }
 }

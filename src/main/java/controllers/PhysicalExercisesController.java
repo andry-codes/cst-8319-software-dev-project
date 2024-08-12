@@ -11,7 +11,7 @@ public class PhysicalExercisesController implements Controller {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 // Forward to the physical exercises page
-        request.getRequestDispatcher("WEB-INF/views/physicalExercises.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/physicalExercises.jsp").forward(request, response);
 	}
 
 }

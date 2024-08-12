@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Search Results</title>
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 
@@ -37,4 +37,3 @@
 </body>
 
 </html>
-

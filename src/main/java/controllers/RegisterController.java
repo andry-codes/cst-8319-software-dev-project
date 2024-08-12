@@ -26,7 +26,7 @@ public class RegisterController implements Controller {
     }
 
     private void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
     }
 
     private void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class RegisterController implements Controller {
 
         if (email == null || email.isEmpty()) {
             request.setAttribute("errorMessage", "Email is required.");
-            request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
 
@@ -45,13 +45,13 @@ public class RegisterController implements Controller {
         TokenDao tokendao = new TokenDao();
         if (userdao.userCheck(username)) {
             request.setAttribute("errorMessage", "Username already exists.");
-            request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
 
         if (userdao.emailCheck(email)) {
             request.setAttribute("errorMessage", "Email already exists.");
-            request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
 
@@ -65,7 +65,7 @@ public class RegisterController implements Controller {
         newUser = userdao.getUser(username);
         if (newUser == null) {
             request.setAttribute("errorMessage", "User registration failed.");
-            request.getRequestDispatcher("WEB-INF/views/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
             return;
         }
 
@@ -76,6 +76,6 @@ public class RegisterController implements Controller {
         session.setAttribute("usernameOrEmail", username); // Store usernameOrEmail in session
 
         request.setAttribute("email", email);
-        request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/verify.jsp").forward(request, response);
     }
 }

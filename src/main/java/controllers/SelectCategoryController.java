@@ -30,7 +30,7 @@ public class SelectCategoryController implements Controller {
             List<Exercise> exercises = exerciseDao.getExercisesByCategory(category);
             request.setAttribute("category", category);
             request.setAttribute("exercises", exercises);
-            request.getRequestDispatcher("WEB-INF/views/category.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/category.jsp").forward(request, response);
         } else {
             response.sendRedirect("physicalExercises");
         }

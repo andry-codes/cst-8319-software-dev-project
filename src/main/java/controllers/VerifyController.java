@@ -51,7 +51,7 @@ public class VerifyController implements Controller{
 	        session.setAttribute("email", email);
 
 	        request.setAttribute("email", email);
-	        request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+	        request.getRequestDispatcher("/WEB-INF/views/verify.jsp").forward(request, response);
 	}
 	
 	private void handlePostRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -91,7 +91,7 @@ public class VerifyController implements Controller{
 
 	            request.setAttribute("email", email);
 	            request.setAttribute("message", "Verification code resent successfully.");
-	            request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+	            request.getRequestDispatcher("/WEB-INF/views/verify.jsp").forward(request, response);
 	        } else {
 	            if (tokenDao.validateVerificationCode(email, verificationCode)) {
 	                UserDao userDao = new UserDao();
@@ -109,7 +109,7 @@ public class VerifyController implements Controller{
 	            } else {
 	                request.setAttribute("errorMessage", "Invalid verification code.");
 	                request.setAttribute("email", email);
-	                request.getRequestDispatcher("WEB-INF/views/verify.jsp").forward(request, response);
+	                request.getRequestDispatcher("/WEB-INF/views/verify.jsp").forward(request, response);
 	            }
 	        }
 	    }

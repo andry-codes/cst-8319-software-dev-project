@@ -26,7 +26,7 @@ public class SelectExerciseController implements Controller{
 	            ExerciseDao exerciseDao = new ExerciseDao();
 	            Exercise exercise = exerciseDao.getExerciseById(Integer.parseInt(exerciseId));
 	            request.setAttribute("exercise", exercise);
-	            request.getRequestDispatcher("WEB-INF/views/exercise.jsp").forward(request, response);
+	            request.getRequestDispatcher("/WEB-INF/views/exercise.jsp").forward(request, response);
 	        } else {
 	            response.sendRedirect("selectCategory");
 	        }

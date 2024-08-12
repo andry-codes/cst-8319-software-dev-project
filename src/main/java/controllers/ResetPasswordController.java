@@ -31,7 +31,7 @@ public class ResetPasswordController implements Controller {
         if (email != null) {
             request.setAttribute("email", email);
         }
-        request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/resetPassword.jsp").forward(request, response);
     }
 
     private void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,15 +47,15 @@ public class ResetPasswordController implements Controller {
                 userdao.updatePassword(email, newPassword);
                 tokendao.deleteVerificationToken(email, resetCode, "reset");
                 request.setAttribute("message", "Password reset successfully. Please login with your new password.");
-                request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "Invalid reset code.");
                 request.setAttribute("email", email);
-                request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/resetPassword.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("errorMessage", "Please provide a reset code and a new password.");
-            request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/resetPassword.jsp").forward(request, response);
         }
     }
 }

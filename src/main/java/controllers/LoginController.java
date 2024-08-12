@@ -15,7 +15,7 @@ public class LoginController implements Controller {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if("GET".equalsIgnoreCase(request.getMethod())) {
-			request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 		}else if("POST".equalsIgnoreCase(request.getMethod())) {
 			String usernameOrEmail = request.getParameter("username_or_email");
 	        String password = request.getParameter("password");
@@ -32,11 +32,11 @@ public class LoginController implements Controller {
 	            if (!userdao.isUserVerified(usernameOrEmail)) {
 	            	response.sendRedirect("verify");
 	            } else {
-	                request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
+	                request.getRequestDispatcher("/WEB-INF/views/homepage.jsp").forward(request, response);
 	            }
 	        } else {
 	            request.setAttribute("errorMessage", "Invalid username/email or password.");
-	            request.getRequestDispatcher("WEB-INF/views/login.jsp").forward(request, response);
+	            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
 	        }
 		}
 		

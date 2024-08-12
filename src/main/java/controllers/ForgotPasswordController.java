@@ -17,7 +17,7 @@ public class ForgotPasswordController implements Controller {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if ("GET".equalsIgnoreCase(request.getMethod())) {
-			request.getRequestDispatcher("WEB-INF/views/forgotPassword.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/forgotPassword.jsp").forward(request, response);
         }else if("POST".equalsIgnoreCase(request.getMethod())) {
         	String email = request.getParameter("email");
             UserDao userDao = new UserDao();
@@ -34,10 +34,10 @@ public class ForgotPasswordController implements Controller {
                 HttpSession session = request.getSession();
                 session.setAttribute("email", email); // Set email in session
                 request.setAttribute("email", email); // Set email in request
-                request.getRequestDispatcher("WEB-INF/views/resetPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/resetPassword.jsp").forward(request, response);
             } else {
                 request.setAttribute("errorMessage", "Email does not exist.");
-                request.getRequestDispatcher("WEB-INF/views/forgotPassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/forgotPassword.jsp").forward(request, response);
             }
         }
 		

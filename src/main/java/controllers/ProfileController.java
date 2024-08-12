@@ -38,7 +38,7 @@ public class ProfileController implements Controller {
                   request.setAttribute("weight", profile.getWeight());
                   request.setAttribute("height", profile.getHeight());
               }
-              request.getRequestDispatcher("WEB-INF/views/profile.jsp").forward(request, response);
+              request.getRequestDispatcher("/WEB-INF/views/profile.jsp").forward(request, response);
           }
     }
     

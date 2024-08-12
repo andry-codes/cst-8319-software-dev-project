@@ -35,7 +35,7 @@ public class HomepageController implements Controller{
 	            return;
 	        }
 	        
-	        request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
+	        request.getRequestDispatcher("/WEB-INF/views/homepage.jsp").forward(request, response);
         }
 		
 	}
