@@ -28,9 +28,8 @@ public class FrontControllerServlet extends HttpServlet {
     	controllers.put("resendResetCode", new ResendResetCodeController());
     	controllers.put("resendVerification", new ResendVerificationController());
     	controllers.put("resetPassword", new ResetPasswordController());
-    	controllers.put("selectCategory", new SearchCategoryController());
     	controllers.put("searchExercise", new SearchExerciseController());
-//    	controllers.put("selectCategory", new SelectCategoryController());
+    	controllers.put("selectCategory", new SelectCategoryController());
     	controllers.put("selectExercise", new SelectExerciseController());
     	controllers.put("verify", new VerifyController());
     }
