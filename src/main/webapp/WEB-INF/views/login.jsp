@@ -19,7 +19,7 @@
     	<input type="password" id="password" name="password" required>
     	<br>
     	<input type="submit" value="Enter Site">
-    	<input type="button" value="Forgot Password" onclick="location.href='/capstoneProject/forgotPassword'">
+    	<input type="button" value="Forgot Password" onclick="location.href='/capstoneProject/controller/forgotPassword'">
 	</form>
 
 	<p>No account?</p>
