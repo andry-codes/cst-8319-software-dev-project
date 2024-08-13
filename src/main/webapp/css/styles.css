@@ -155,3 +155,8 @@ input[type="button"]:hover {
     display: block;
     margin: 10px auto; 
 }
+
+#editprofile, 
+#logout{
+	width: 100%;
+}

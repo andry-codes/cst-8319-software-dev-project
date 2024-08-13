@@ -35,10 +35,10 @@
 	</div>
 	<div class="profile-header">
 		<form action="profile" method="get">
-	    <input type="submit" value="Edit Profile">
+	    <input type="submit" id="editprofile" value="Edit Profile">
 	</form>
 	<form action="logout" method="post">
-	    <input type="submit" value="Log Out">
+	    <input type="submit" id="logout" value="Log Out">
 	</form>
 	</div>
 </header>
